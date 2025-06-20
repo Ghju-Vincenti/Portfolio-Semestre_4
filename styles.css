@@ -89,6 +89,10 @@ h3 {
   color: var(--accent-light);
 }
 
+li {
+  margin-bottom: 0.5rem;
+}
+
 /* Header */
 .header * {
   user-select: none;
@@ -198,6 +202,21 @@ h3 {
 .github-btn {
   font-weight: 500;
 }
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.post-card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: #fff;
+}
+
 
 .cta-header:hover,
 .cta:hover,
@@ -365,6 +384,42 @@ main {
   z-index: 999;
   box-sizing: border-box;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .project-card-real {
+        background: rgba(40, 45, 60, 0.38);
+        border: 1.5px solid rgba(255, 255, 255, 0.10);
+    }}
+
+.project-card-real {
+  background:
+    url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path fill="white" fill-opacity="0.11" d="M0 140 Q50 130 100 170 T200 130 V200 H0 Z"/><path fill="white" fill-opacity="0.10" d="M0 80 Q60 100 120 60 T200 100 V200 H0 Z"/></svg>') center/cover no-repeat,
+    linear-gradient(120deg, rgba(0, 26, 141, 0.404) 20%, rgba(11, 70, 146, 0.37) 60%, rgba(84, 112, 236, 0.16) 80%),
+    linear-gradient(100deg, rgba(--accent-rgb,0.07) 0%, rgba(255,255,255,0.0) 60%),
+    linear-gradient(
+      to bottom right,
+      rgba(255,255,255,0.36) 0%,
+      rgba(255,255,255,0.13) 100%
+    );
+  backdrop-filter: blur(28px) saturate(240%);
+  -webkit-backdrop-filter: blur(28px) saturate(240%);
+  border: 1.5px solid rgba(255,255,255,0.32);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 210px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.05),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  z-index: 999;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 2rem;
+  margin: 2rem ;
 }
 
 .project-card h3 {

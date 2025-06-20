@@ -23,6 +23,7 @@
     <!-- CSS JS -->
     <link rel="stylesheet" href="styles.css">
     <script src="main.js" defer></script>
+    <script type="module" src="/sanity/js/posts.js"></script>
   </head>
 
 <body>
@@ -41,6 +42,9 @@
          class="icon-btn">
         <img src="assets/icons/linkedin.svg" alt="LinkedIn logo - Connect professionally" class="icon-lg">
       </a>
+      <a href="index.html" class="cta" aria-label="Home">
+        <span>Accueil</span>
+      </a>
       <a href="assets/images/GhjuCV.pdf" download class="cta-header" aria-label="Download CV (PDF)">
         <img src="assets/icons/download.svg" alt="Download icon - Resume document" class="icon-download">
         <span>Télécharger mon CV</span>
@@ -56,5 +60,13 @@
         <a href="#projects" class="cta" aria-label="Skip to projects section">
           Découvrez quelques-uns de mes travaux </a>
       </div>
-                   <img src="assets/images/me.png" alt="Moi"  class="hero-image" loading="lazy">
+      <img src="assets/images/me.png" alt="Moi"  class="hero-image" loading="lazy">
     </section>
+<section id="projects" class="projects-section" aria-labelledby="projects-heading">
+  <h2 id="projects-heading">Mes Réalisations</h2>
+  <p>Voici quelques projets sur lesquels j'ai travaillé, illustrant mes compétences en développement web et mobile.</p>
+  <div class="posts"></div>
+
+
+
+</section>
