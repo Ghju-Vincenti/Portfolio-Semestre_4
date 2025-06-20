@@ -1,20 +1,54 @@
-// main.js
+// main.js - Version DEBUG
 import { createClient } from 'https://cdn.skypack.dev/@sanity/client'
 
-// Configuration adaptative selon l'environnement
-const isProduction = window.location.protocol === 'https:' && window.location.hostname.includes('github.io')
-
+// Configuration du client
 const client = createClient({
   projectId: 'w1hfz6z1', 
   dataset: 'production',
   apiVersion: '2024-06-01',
-  useCdn: true,
+  useCdn: true, // TOUJOURS true pour GitHub Pages
   perspective: 'published'
 })
 
+// Log de debug au début
+console.log('🔧 DEBUG: Configuration Sanity:', {
+  projectId: 'w1hfz6z1',
+  dataset: 'production',
+  useCdn: true,
+  currentURL: window.location.href,
+  protocol: window.location.protocol,
+  hostname: window.location.hostname
+})
 
+// Test basique de connexion
+console.log('🔍 Test 1: Vérification de la connexion Sanity...')
 
-const query = `*[_type == "post"]{
+// Requête simple pour tester
+const testQuery = `*[_type == "post"][0..2]{_id, title}`
+
+client.fetch(testQuery)
+  .then(result => {
+    console.log('✅ Test 1 RÉUSSI: Connexion OK, données trouvées:', result)
+    if (result.length === 0) {
+      console.warn('⚠️ Aucun post trouvé. Vérifiez que vos posts sont bien publiés dans Sanity Studio')
+    }
+  })
+  .catch(error => {
+    console.error('❌ Test 1 ÉCHOUÉ: Erreur de connexion:', error)
+    console.error('Type d\'erreur:', error.name)
+    console.error('Message:', error.message)
+    
+    // Diagnostic spécifique
+    if (error.message.includes('CORS')) {
+      console.error('🚫 PROBLÈME CORS: Ajoutez votre domaine GitHub Pages dans Sanity Dashboard')
+      console.error('👉 Allez sur: https://sanity.io/manage/personal/project/w1hfz6z1/api')
+      console.error('👉 Ajoutez:', window.location.origin)
+    }
+  })
+
+// Requête complète
+const fullQuery = `*[_type == "post"] | order(publishedAt desc){
+  _id,
   title,
   "slug": slug.current,
   "imageUrl": mainImage.asset->url,
@@ -29,163 +63,119 @@ const query = `*[_type == "post"]{
 
 const postsGrid = document.querySelector('.posts')
 
+// Vérification de l'élément DOM
+if (!postsGrid) {
+  console.error('❌ Élément .posts non trouvé dans le DOM!')
+  console.log('📋 Éléments disponibles:', document.querySelectorAll('*[class]'))
+}
+
 // Fonction pour formater la date
 function formatDate(dateString) {
   if (!dateString) return 'Date non disponible'
   return new Date(dateString).toLocaleDateString('fr-FR')
 }
 
-// Fonction pour convertir blockContent en HTML
-function blockContentToHtml(blocks) {
-  if (!blocks || !Array.isArray(blocks)) return 'Aucun contenu disponible.'
-  
-  return blocks.map(block => {
-    if (block._type === 'block') {
-      const style = block.style || 'normal'
-      const children = block.children || []
-      
-      const text = children.map(child => {
-        let content = child.text || ''
-        
-        // Gestion des styles (gras, italique, etc.)
-        if (child.marks && child.marks.length > 0) {
-          child.marks.forEach(mark => {
-            switch(mark) {
-              case 'strong':
-                content = `<strong>${content}</strong>`
-                break
-              case 'em':
-                content = `<em>${content}</em>`
-                break
-              case 'underline':
-                content = `<u>${content}</u>`
-                break
-              case 'code':
-                content = `<code>${content}</code>`
-                break
-            }
-          })
-        }
-        
-        return content
-      }).join('')
-      
-      // Gestion des différents styles de bloc
-      switch(style) {
-        case 'h1':
-          return `<h3>${text}</h3>` // h3 car h1 et h2 sont déjà utilisés
-        case 'h2':
-          return `<h4>${text}</h4>`
-        case 'h3':
-          return `<h5>${text}</h5>`
-        case 'h4':
-          return `<h6>${text}</h6>`
-        case 'blockquote':
-          return `<blockquote style="border-left: 3px solid #ccc; padding-left: 15px; margin: 10px 0; font-style: italic;">${text}</blockquote>`
-        default:
-          return text ? `<p>${text}</p>` : ''
-      }
-    }
-    return ''
-  }).join('')
-}
-
-// Fonction pour extraire un résumé du blockContent
-function getExcerpt(blocks, maxLength = 200) {
-  if (!blocks || !Array.isArray(blocks)) return 'Aucun résumé disponible.'
-  
-  let text = ''
-  for (const block of blocks) {
-    if (block._type === 'block' && block.children) {
-      const blockText = block.children.map(child => child.text || '').join('')
-      text += blockText + ' '
-      if (text.length > maxLength) break
-    }
-  }
-  
-  return text.length > maxLength 
-    ? text.substring(0, maxLength).trim() + '...' 
-    : text.trim() || 'Aucun résumé disponible.'
-}
-
-// Fonction pour créer le HTML d'un post
-function createPostHTML(post) {
-  const excerpt = getExcerpt(post.body, 150)
-  const fullContent = blockContentToHtml(post.body)
-  
+// Version simplifiée pour le debug
+function createSimplePostHTML(post) {
   return `
-    <div class="post-header">
-      <h2>${post.title || 'Titre non disponible'}</h2>
-      ${post.imageUrl ? `<img src="${post.imageUrl}" alt="${post.title}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0;">` : ''}
+    <div style="border: 1px solid #ccc; padding: 15px; margin: 10px 0; border-radius: 5px;">
+      <h3>${post.title || 'Titre manquant'}</h3>
+      <p><strong>ID:</strong> ${post._id}</p>
+      <p><strong>Publié:</strong> ${formatDate(post.publishedAt)}</p>
+      <p><strong>Auteur:</strong> ${post.author || 'Non défini'}</p>
+      <p><strong>Catégories:</strong> ${post.categories?.length ? post.categories.map(cat => cat.title).join(', ') : 'Aucune'}</p>
+      ${post.imageUrl ? `<img src="${post.imageUrl}" alt="${post.title}" style="max-width: 200px; height: auto;">` : '<p>Pas d\'image</p>'}
+      <p><strong>Corps:</strong> ${post.body ? 'Contenu présent' : 'Pas de contenu'}</p>
+      ${post.documents?.length ? `<p><strong>Fichiers:</strong> ${post.documents.length} fichier(s)</p>` : ''}
     </div>
-    
-    <div class="post-meta">
-      <p><strong>Auteur :</strong> ${post.author || 'Inconnu'}</p>
-      <p><strong>Publié le :</strong> ${formatDate(post.publishedAt)}</p>
-      <p><strong>Catégories :</strong> ${post.categories?.length ? post.categories.map(cat => cat.title).join(', ') : 'Aucune'}</p>
-    </div>
-    
-    <div class="post-excerpt">
-      <p><strong>Résumé :</strong> ${excerpt}</p>
-    </div>
-    
-    <div class="post-content" style="display: none;">
-      <h3>Contenu complet :</h3>
-      ${fullContent}
-    </div>
-    
-    <button class="toggle-content cta" onclick="toggleContent(this)">
-      Lire la suite
-    </button>
-    
-    ${post.documents?.length ? `
-      <div class="post-documents">
-        <p><strong>Fichiers :</strong></p>
-        <ul style="list-style: none; padding: 0;">
-          ${post.documents.map(doc => 
-            `<li style="margin: 5px 0;"><a href="${doc.asset?.url}" class="cta" target="_blank" rel="noopener" style="text-decoration: none;">${doc.asset?.originalFilename || 'Fichier'}</a></li>`
-          ).join('')}
-        </ul>
-      </div>` : ''
-    }
   `
 }
 
-// Fonction pour basculer l'affichage du contenu complet
-window.toggleContent = function(button) {
-  const postCard = button.closest('.project-card-real')
-  const excerpt = postCard.querySelector('.post-excerpt')
-  const content = postCard.querySelector('.post-content')
+// Fonction principale de chargement
+function loadPosts() {
+  console.log('🔍 Test 2: Chargement des posts complets...')
   
-  if (content.style.display === 'none') {
-    excerpt.style.display = 'none'
-    content.style.display = 'block'
-    button.textContent = 'Réduire'
-  } else {
-    excerpt.style.display = 'block'
-    content.style.display = 'none'
-    button.textContent = 'Lire la suite'
+  // Affichage de loading
+  if (postsGrid) {
+    postsGrid.innerHTML = '<p>🔄 Chargement des posts...</p>'
   }
+
+  client.fetch(fullQuery)
+    .then(posts => {
+      console.log('✅ Test 2 RÉUSSI: Posts récupérés:', posts)
+      console.log('📊 Nombre de posts:', posts?.length || 0)
+      
+      if (!postsGrid) {
+        console.error('❌ Impossible d\'afficher: élément .posts manquant')
+        return
+      }
+
+      if (!posts || posts.length === 0) {
+        postsGrid.innerHTML = `
+          <div style="padding: 20px; background: #ffeeee; border: 1px solid #ff0000;">
+            <h3>❌ Aucun post trouvé</h3>
+            <p>Vérifiez que:</p>
+            <ul>
+              <li>Vos posts sont publiés (pas en brouillon)</li>
+              <li>Ils ont une date publishedAt</li>
+              <li>Le type est bien "post"</li>
+            </ul>
+          </div>
+        `
+        return
+      }
+
+      // Affichage des posts
+      postsGrid.innerHTML = '' // Clear loading
+      posts.forEach((post, index) => {
+        console.log(`📝 Post ${index + 1}:`, post)
+        const el = document.createElement('div')
+        el.innerHTML = createSimplePostHTML(post)
+        postsGrid.appendChild(el)
+      })
+
+      console.log('✅ Affichage terminé!')
+    })
+    .catch(err => {
+      console.error('❌ Test 2 ÉCHOUÉ:', err)
+      
+      if (postsGrid) {
+        postsGrid.innerHTML = `
+          <div style="padding: 20px; background: #ffeeee; border: 1px solid #ff0000;">
+            <h3>❌ Erreur de chargement</h3>
+            <p><strong>Erreur:</strong> ${err.message}</p>
+            <p>Consultez la console pour plus de détails</p>
+          </div>
+        `
+      }
+    })
 }
 
-// Affichage des posts
-client.fetch(query)
-  .then(posts => {
-    console.log('Posts récupérés:', posts) // Pour débugger
-    
-    if (!posts || posts.length === 0) {
-      postsGrid.innerHTML = '<p>Aucun post trouvé.</p>'
-      return
-    }
-
-    posts.forEach(post => {
-      const el = document.createElement('div')
-      el.className = 'project-card-real'
-      el.innerHTML = createPostHTML(post)
-      postsGrid.appendChild(el)
+// Tests de l'API directement
+function testApiDirectly() {
+  console.log('🔍 Test 3: Test direct de l\'API...')
+  
+  const apiUrl = `https://w1hfz6z1.api.sanity.io/v2024-06-01/data/query/production?query=*[_type == "post"]`
+  
+  fetch(apiUrl)
+    .then(response => {
+      console.log('📡 Réponse API Status:', response.status)
+      console.log('📡 Réponse API Headers:', response.headers)
+      return response.json()
     })
-  })
-  .catch(err => {
-    console.error('Erreur Sanity:', err)
-    postsGrid.innerHTML = `<p>Erreur lors du chargement des posts: ${err.message}</p>`
-  })
+    .then(data => {
+      console.log('✅ Test 3 RÉUSSI: Données API directes:', data)
+    })
+    .catch(error => {
+      console.error('❌ Test 3 ÉCHOUÉ: API directe inaccessible:', error)
+    })
+}
+
+// Lancement des tests
+console.log('🚀 Début des tests de diagnostic...')
+testApiDirectly()
+
+// Attendre un peu avant de charger les posts
+setTimeout(() => {
+  loadPosts()
+}, 1000)
