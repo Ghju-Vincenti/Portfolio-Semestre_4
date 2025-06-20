@@ -8,11 +8,13 @@ const client = createClient({
   projectId: 'w1hfz6z1', 
   dataset: 'production',
   apiVersion: '2024-06-01',
-  useCdn: true,
-  perspective: 'published'
+  useCdn: true
 })
 
-
+// Debug info
+console.log('Environment:', isProduction ? 'Production' : 'Development')
+console.log('Using CDN:', isProduction)
+console.log('Current URL:', window.location.href)
 
 const query = `*[_type == "post"]{
   title,
