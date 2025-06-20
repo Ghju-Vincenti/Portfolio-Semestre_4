@@ -9,6 +9,7 @@ export default defineConfig({
 
   projectId: 'w1hfz6z1',
   dataset: 'production',
+   useCdn: true,
 
   plugins: [structureTool(), visionTool()],
 
