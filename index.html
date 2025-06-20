@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <!-- Metadata -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Anghjula dea Vincenti</title>
+    <meta name="author" content="Ghju Vincenti">
+    <meta name="keywords" content="web development, Flutter, educational technology, CS student, portfolio, JavaScript, Python, PHP">
+    <meta name="theme-color" content="#cfd8ef" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#242f3d" media="(prefers-color-scheme: dark)">
+    <link rel="website" href="https://ghju-vincenti.ovh/">
+  
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+
+    <!-- TYPOSCRIPT -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&amp;display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&amp;display=swap">
+  
+    <!-- CSS JS -->
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
+  </head>
+
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <header class="header">
+    <div class="logo">
+      <span class="logo-full">Ghju Vincenti</span>
+      <span class="logo-short">Ghju</span>
+    </div>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="https://github.com/Ghju-Vincenti" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"
+         class="icon-btn">
+        <img src="assets/icons/github.svg" alt="GitHub logo - Open profile" class="icon-lg">
+      </a>
+      <a href="https://fr.linkedin.com/in/ghju-vincenti-628090254" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"
+         class="icon-btn">
+        <img src="assets/icons/linkedin.svg" alt="LinkedIn logo - Connect professionally" class="icon-lg">
+      </a>
+      <a href="assets/images/GhjuCV.pdf" download class="cta-header" aria-label="Download CV (PDF)">
+        <img src="assets/icons/download.svg" alt="Download icon - Resume document" class="icon-download">
+        <span>Télécharger mon CV</span>
+      </a>
+    </nav>
+  </header>
+  <main id="main-content">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-content">
+        <h1 id="hero-heading">Bonjour,<br>je suis <span class="primary">Ghju Vincenti</span></h1>
+        <p>Je crée des applications et des interfaces web modernes en mettant l'accent sur un design épuré et réactif. En tant qu'étudiant en informatique à l'IUT de Corte et passionné de nouvelles technologies, j'adore construire tout, <br> des applications Web aux systèmes backend, en visant toujours des expériences fluides et intuitives.</p>
+        <a href="#projects" class="cta" aria-label="Skip to projects section">
+          Découvrez quelques-uns de mes travaux </a>
+      </div>
+                   <img src="assets/images/me.png" alt="Moi"  class="hero-image" loading="lazy">
+    </section>
+
+
+
+
+    <section id="projects" class="projects-section" aria-labelledby="projects-heading">
+      <h2 id="projects-heading">Projets</h2>
+      <div class="bento-grid">
+        <div class="project-card">
+          <h3>Ecosistema FCE PWA</h3>
+          <p>Une Progressive Web App conçue pour la Facultad de Ciencias Económicas de l'UNRC, intégrant le contenu de Moodle et offrant une interface mobile conviviale pour les étudiants et le personnel.</p>
+          <div class="card-spacer"></div>
+          <div class="tags">
+            <span>JS</span><span>HTML</span><span>JSON</span>
+          </div>
+          <a href="https://github.com/JuaniV2002/EcosistemaFCE_PWA" 
+          target="_blank" rel="noopener noreferrer" class="github-btn" 
+          aria-label="View Ecosistema FCE PWA on GitHub">
+            <img src="assets/icons/github.svg" alt="GitHub" class="icon-github">
+            <span>View on GitHub</span>
+          </a>
+        </div>
+        <div class="project-card">
+          <h3>Welcome Message</h3>
+          <p>A custom Moodle plugin that automatically sends a welcome message email, web notification, and mobile push notification to new users upon enrollment—fully integrated with the Moodle App.</p>
+          <div class="card-spacer"></div>
+          <div class="tags">
+            <span>PHP</span><span>CSS</span>
+          </div>
+          <a href="https://github.com/JuaniV2002/moodle_welcome_message_plugin" 
+          target="_blank" rel="noopener noreferrer" class="github-btn"
+          aria-label="View Moodle Welcome Message on GitHub">
+            <img src="assets/icons/github.svg" alt="GitHub" class="icon-github">
+            <span>View on GitHub</span>
+          </a>
+        </div>
+        <div class="project-card">
+          <h3>Meals App</h3>
+          <p>A cross-platform Flutter app for discovering, filtering, and favoriting meal recipes. Browse dishes, apply dietary filters, and view detailed ingredients and preparation steps in a clean interface.
+          </p>
+          <div class="card-spacer"></div>
+          <div class="tags">
+            <span translate="no">Flutter</span><span translate="no">Dart</span>
+          </div>
+          <a href="https://github.com/JuaniV2002/meals_app" 
+          target="_blank" rel="noopener noreferrer" class="github-btn"
+          aria-label="View Meals App on GitHub">
+            <img src="assets/icons/github.svg" alt="GitHub" class="icon-github">
+            <span>View on GitHub</span>
+          </a>
+        </div>
+        <div class="project-card">
+          <h3>Expenses App</h3>
+          <p>A Flutter-based app for tracking daily expenses. Log spending by category and view dynamic charts to visualize your financial habits, all with a clean interface and easy swipe-to-delete editing.</p>
+          <div class="card-spacer"></div>
+          <div class="tags">
+            <span translate="no">Flutter</span><span translate="no">Dart</span>
+          </div>
+          <a href="https://github.com/JuaniV2002/expenses_app" 
+          target="_blank" rel="noopener noreferrer" class="github-btn"
+          aria-label="View Expenses App on GitHub">
+            <img src="assets/icons/github.svg" alt="GitHub" class="icon-github">
+            <span>View on GitHub</span>
+          </a>
+        </div>
+        <div class="project-card">
+          <h3>Distributed Lamport chat</h3>
+          <p>A distributed messaging system implementing Lamport clocks and total order broadcast using the ISIS algorithm. Designed for academic exploration of distributed systems behavior and operation.</p>
+          <div class="card-spacer"></div>
+          <div class="tags">
+            <span>Python</span><span translate="no">Shell</span>
+          </div>
+          <a href="https://github.com/Uriel-Gz/distributed_lamport_chat" 
+          target="_blank" rel="noopener noreferrer" class="github-btn"
+          aria-label="View Distributed Lamport chat on GitHub">
+            <img src="assets/icons/github.svg" alt="GitHub" class="icon-github">
+            <span>View on GitHub</span>
+          </a>
+        </div>
+        <div class="project-card">
+          <h3><span translate="no">Etch-A-Sketch</span></h3>
+          <p>A browser-based Etch-A-Sketch clone built with JavaScript, HTML, and CSS. Features a customizable pixel grid, color picker, multiple drawing modes, responsive controls, and canvas export.</p>
+          <div class="card-spacer"></div>
+          <div class="tags">
+            <span>CSS</span><span>JS</span><span>HTML</span>
+          </div>
+          <a href="https://github.com/JuaniV2002/etch_a_sketch" 
+          target="_blank" rel="noopener noreferrer" class="github-btn"
+          aria-label="View Etch-A-Sketch on GitHub">
+            <img src="assets/icons/github.svg" alt="GitHub" class="icon-github">
+            <span>View on GitHub</span>
+          </a>
+        </div>
+      </div>
+      <div class="explore-all">
+        <a href="https://github.com/Ghju-Vincenti?tab=repositories"
+           target="_blank" rel="noopener noreferrer"
+           class="cta"
+           aria-label="Explore all my repositories on GitHub">
+           Explore all my repositories
+        </a>
+      </div>
+    </section>
+   
+   
+   
+   
+    <section id="skills" class="skills-section" aria-labelledby="skills-heading">
+      <h2 id="skills-heading">Compétences</h2>
+      <div class="skills-grid">
+        <div class="skill-card"  data-skill="html">
+          <img src="assets/icons/html5.svg" alt="HTML icon">
+          <span>HTML</span>
+        </div>
+        <div class="skill-card" data-skill="css">
+          <img src="assets/icons/css.svg" alt="CSS icon">
+          <span>CSS</span>
+        </div>
+        <div class="skill-card" data-skill="js">
+          <img src="assets/icons/javascript.svg" alt="JavaScript icon">
+          <span>JavaScript</span>
+        </div>
+        <div class="skill-card" data-skill="flutter">
+          <img src="assets/icons/flutter.svg" alt="Flutter icon">
+          <span translate="no">Flutter</span>
+        </div>
+        <div class="skill-card" data-skill="moodle">
+          <img src="assets/icons/moodle.svg" alt="Moodle icon">
+          <span>Moodle</span>
+        </div>
+        <div class="skill-card" data-skill="java">
+          <img src="assets/icons/java.svg" alt="Java icon">
+          <span>Java</span>
+        </div>
+        <div class="skill-card" data-skill="python">
+          <img src="assets/icons/python.svg" alt="Python icon">
+          <span>Python</span>
+        </div>
+        <div class="skill-card" data-skill="shell">
+          <img src="assets/icons/gnubash.svg" alt="Bash icon">
+          <span translate="no">Shell</span>
+        </div>
+      </div>
+    </section>
+    <section id="contact" class="contact-section" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Contactez-moi</h2>
+      <div class="contact-content">
+        <p>N'hésitez pas à me contacter si vous souhaitez collaborer, poser une question ou simplement dire bonjour. Je suis toujours ouvert à de nouvelles opportunités et conversations !</p>
+        <a href="mailto:vendrix17@gmail.com" class="contact-btn" 
+        aria-label="Send email to Ghju">
+          Email me
+        </a>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>2025 Ghju Vincenti. Built with ♥️ and deployed on GitHub Pages.</p>
+  </footer>
+</body>
+</html>
