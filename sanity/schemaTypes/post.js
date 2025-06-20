@@ -40,6 +40,19 @@ export default defineType({
       of: [{type: 'reference', to: {type: 'category'}}],
     }),
     defineField({
+      name: 'documents',
+      title: 'Fichiers associés',
+      type: 'array',
+      of: [
+        {
+          type: 'file',
+          options: {
+            accept: '.pdf,.docx,.pptx,.zip,.jpg,.png'
+          }
+        }
+      ]
+    }),
+    defineField({
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',
@@ -62,4 +75,7 @@ export default defineType({
       return {...selection, subtitle: author && `by ${author}`}
     },
   },
+
 })
+
+
