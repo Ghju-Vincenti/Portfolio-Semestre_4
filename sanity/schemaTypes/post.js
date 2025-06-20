@@ -47,7 +47,7 @@ export default defineType({
         {
           type: 'file',
           options: {
-            accept: '.pdf,.docx,.pptx,.zip,.jpg,.png'
+            accept: '.pdf,.docx,.pptx,.zip,.jpg,.png,.MP4',
           }
         }
       ]
