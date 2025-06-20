@@ -1,12 +1,21 @@
 // main.js
 import { createClient } from 'https://cdn.skypack.dev/@sanity/client'
 
+// Configuration adaptative selon l'environnement
+const isProduction = window.location.protocol === 'https:' && window.location.hostname.includes('github.io')
+
 const client = createClient({
   projectId: 'w1hfz6z1', 
   dataset: 'production',
   apiVersion: '2024-06-01',
-  useCdn: false // Important pour le développement local
+  useCdn: isProduction, // CDN en production, pas en dev
+  perspective: 'published'
 })
+
+// Debug info
+console.log('Environment:', isProduction ? 'Production' : 'Development')
+console.log('Using CDN:', isProduction)
+console.log('Current URL:', window.location.href)
 
 const query = `*[_type == "post"]{
   title,
