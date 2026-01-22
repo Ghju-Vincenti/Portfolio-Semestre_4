@@ -7,25 +7,25 @@
 
 PAGE D'ACCUEIL
     HERO
-    -   Link la page de réal au hero
+    ✅   Link la page de réal au hero
 
     PROJETS GITHUB
-    -   Ajouter les liens des sitesdans les titres de dépots
-    -   Remplacer les titres dans la section "Mes dépots Github" en titre lisable pour les professionnels
+    ✅   Ajouter les liens des sites dans les titres de dépots
+    ✅   Remplacer les titres dans la section "Mes dépots Github" en titre lisable pour les professionnels
 
     COMPETENCES 
-    -   Ajouter + de compétences pas que du dev
+    ✅  Ajouter + de compétences pas que du dev
 
     CONTACT
-    -   Ajouter les liens Github + LinkedIn 
+    ✅   Ajouter les liens Github + LinkedIn 
 
     FOOTER
 
 
 PAGE REALISATIONS
--   Mettre des filtres sur la page Réal
--   Reduire le scrolltime en mettants 2_3 projets sur une ligne
--   Ajouter un footer dans la page réal
+✅   Mettre des filtres sur la page Réal
+✅   Reduire le scrolltime en mettants 2_3 projets sur une ligne
+✅   Ajouter un footer dans la page réal
 
     CARDS
     - Carousels d'images sur chaque cards
