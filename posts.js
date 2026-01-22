@@ -23,6 +23,7 @@ const query = `*[_type == "post"]{
   publishedAt,
   body,
   "categories": categories[]->{title},
+  year,
   "author": author->name,
   "documents": documents[]{
     "asset": asset->{url, originalFilename}
@@ -115,6 +116,8 @@ function createPostHTML(post) {
   const excerpt = getExcerpt(post.body, 150)
   const fullContent = blockContentToHtml(post.body)
   
+  const yearText = post.year ? post.year : 'Non précisée'
+
   return `
     <div class="post-header">
       <h2>${post.title || 'Titre non disponible'}</h2>
@@ -123,7 +126,7 @@ function createPostHTML(post) {
     
     <div class="post-meta">
       <p><strong>Auteur :</strong> ${post.author || 'Inconnu'}</p>
-      <p><strong>Publié le :</strong> ${formatDate(post.publishedAt)}</p>
+      <p><strong>Année :</strong>  ${yearText}</p>
       <p><strong>Catégories :</strong> ${post.categories?.length ? post.categories.map(cat => cat.title).join(', ') : 'Aucune'}</p>
     </div>
     

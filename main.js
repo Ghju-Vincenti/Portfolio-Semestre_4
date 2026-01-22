@@ -80,6 +80,7 @@ const fullQuery = `*[_type == "post"] | order(publishedAt desc){
   publishedAt,
   body,
   "categories": categories[]->{title},
+  "year",
   "author": author->name,
   "documents": documents[]{
     "asset": asset->{url, originalFilename}
@@ -106,7 +107,7 @@ function createSimplePostHTML(post) {
     <div style="border: 1px solid #ccc; padding: 15px; margin: 10px 0; border-radius: 5px;">
       <h3>${post.title || 'Titre manquant'}</h3>
       <p><strong>ID:</strong> ${post._id}</p>
-      <p><strong>Publié:</strong> ${formatDate(post.publishedAt)}</p>
+      <p><strong>Année:</strong> ${(post.year)}</p>
       <p><strong>Auteur:</strong> ${post.author || 'Non défini'}</p>
       <p><strong>Catégories:</strong> ${post.categories?.length ? post.categories.map(cat => cat.title).join(', ') : 'Aucune'}</p>
       ${post.imageUrl ? `<img src="${post.imageUrl}" alt="${post.title}" style="max-width: 200px; height: auto;">` : '<p>Pas d\'image</p>'}
@@ -117,53 +118,60 @@ function createSimplePostHTML(post) {
 }
 
 // Fonction principale de chargement
+// Fonction pour charger les posts avec les filtres
 function loadPosts() {
-  console.log('🔍 Test 2: Chargement des posts complets...')
-  
+  const categoryFilter = document.querySelector('#category-filter').value;
+  const authorFilter = document.querySelector('#author-filter').value;
+
+  console.log('🔍 Test 2: Chargement des posts avec filtres...')
+
   // Affichage de loading
   if (postsGrid) {
     postsGrid.innerHTML = '<p>🔄 Chargement des posts...</p>'
   }
 
-  client.fetch(fullQuery)
+  // Construction de la requête avec les filtres
+  let filterQuery = '*[_type == "post"]';
+  
+  if (categoryFilter) {
+    filterQuery += ` && categories[]->title == "${categoryFilter}"`;
+  }
+
+
+  filterQuery += ' | order(publishedAt desc){_id, title, "slug": slug.current, "imageUrl": mainImage.asset->url, publishedAt, body, "categories": categories[]->{title}, "author": author->name, "documents": documents[]{ "asset": asset->{url, originalFilename}}}';
+
+  client.fetch(filterQuery)
     .then(posts => {
-      console.log('✅ Test 2 RÉUSSI: Posts récupérés:', posts)
-      console.log('📊 Nombre de posts:', posts?.length || 0)
-      
+      console.log('✅ Test 2 RÉUSSI: Posts récupérés:', posts);
       if (!postsGrid) {
-        console.error('❌ Impossible d\'afficher: élément .posts manquant')
-        return
+        console.error('❌ Impossible d\'afficher: élément .posts manquant');
+        return;
       }
 
       if (!posts || posts.length === 0) {
         postsGrid.innerHTML = `
           <div style="padding: 20px; background: #ffeeee; border: 1px solid #ff0000;">
             <h3>❌ Aucun post trouvé</h3>
-            <p>Vérifiez que:</p>
-            <ul>
-              <li>Vos posts sont publiés (pas en brouillon)</li>
-              <li>Ils ont une date publishedAt</li>
-              <li>Le type est bien "post"</li>
-            </ul>
+            <p>Vérifiez que les filtres sont correctement appliqués.</p>
           </div>
-        `
-        return
+        `;
+        return;
       }
 
       // Affichage des posts
-      postsGrid.innerHTML = '' // Clear loading
+      postsGrid.innerHTML = ''; // Clear loading
       posts.forEach((post, index) => {
-        console.log(`📝 Post ${index + 1}:`, post)
-        const el = document.createElement('div')
-        el.innerHTML = createSimplePostHTML(post)
-        postsGrid.appendChild(el)
-      })
+        console.log(`📝 Post ${index + 1}:`, post);
+        const el = document.createElement('div');
+        el.innerHTML = createSimplePostHTML(post);
+        postsGrid.appendChild(el);
+      });
 
-      console.log('✅ Affichage terminé!')
+      console.log('✅ Affichage terminé!');
     })
     .catch(err => {
-      console.error('❌ Test 2 ÉCHOUÉ:', err)
-      
+      console.error('❌ Test 2 ÉCHOUÉ:', err);
+
       if (postsGrid) {
         postsGrid.innerHTML = `
           <div style="padding: 20px; background: #ffeeee; border: 1px solid #ff0000;">
@@ -171,10 +179,15 @@ function loadPosts() {
             <p><strong>Erreur:</strong> ${err.message}</p>
             <p>Consultez la console pour plus de détails</p>
           </div>
-        `
+        `;
       }
-    })
+    });
 }
+
+// Ajouter des événements pour surveiller les changements dans les filtres
+document.querySelector('#category-filter').addEventListener('change', loadPosts);
+document.querySelector('#author-filter').addEventListener('change', loadPosts);
+
 
 // Tests de l'API directement
 function testApiDirectly() {

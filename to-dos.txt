@@ -1,12 +1,9 @@
 
-
 -   Update le CV
 -   Revoir le formatage du CV
 -   Montrer l'évolution de mes compétences
 -   Revoir les ACs
 -   Nouvelle section "Logiciel"
-
-
 
 PAGE D'ACCUEIL
     HERO
@@ -23,7 +20,6 @@ PAGE D'ACCUEIL
     -   Ajouter les liens Github + LinkedIn 
 
     FOOTER
-
 
 
 PAGE REALISATIONS
