@@ -26,12 +26,15 @@ export default defineType({
       to: {type: 'author'},
     }),
     defineField({
-      name: 'mainImage',
-      title: 'Main image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
+      name: 'images',
+      type: 'array',
+      title: 'Images modales',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true }
+        }
+      ],
     }),
     defineField({
       name: 'categories',
@@ -43,6 +46,21 @@ export default defineType({
       name: 'year',
       title: 'Année',
       type: 'string',
+      of: [{type: 'reference', to: {type: 'year'}}],
+    }),
+    defineField({
+      name: 'tags',
+      type: 'array',
+      title: 'Tags',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'tag' }]  // Reference to the 'tag' document
+        }
+      ],
+      options: {
+        layout: 'tags', // This makes the tag field display nicely in Sanity Studio
+      }
     }),
     defineField({
       name: 'documents',
@@ -62,6 +80,7 @@ export default defineType({
       title: 'Published at',
       type: 'datetime',
     }),
+    
     defineField({
       name: 'body',
       title: 'Body',

@@ -72,20 +72,28 @@ client.fetch(testQuery)
   })
 
 // Requête complète
-const fullQuery = `*[_type == "post"] | order(publishedAt desc){
-  _id,
-  title,
-  "slug": slug.current,
-  "imageUrl": mainImage.asset->url,
-  publishedAt,
-  body,
-  "categories": categories[]->{title},
-  "year",
-  "author": author->name,
-  "documents": documents[]{
-    "asset": asset->{url, originalFilename}
-  }
+const fullQuery = `*[_type == "post" && 
+// Filter by Category (example: "Tech" category)
+references(*[_type == "category" && title == $categoryTitle]._id) && 
+// Filter by Tag (example: "JavaScript" tag)
+references(*[_type == "tag" && title == $tagTitle]._id) && 
+// Filter by Year (example: "2023")
+year == $year
+] | order(publishedAt desc) {
+_id,
+title,
+"slug": slug.current,
+"imageUrl": mainImage.asset->url,
+publishedAt,
+body,
+"categories": categories[]->{title},
+year,
+"author": author->name,
+"documents": documents[] {
+  "asset": asset->{url, originalFilename}
+}
 }`
+
 
 const postsGrid = document.querySelector('.posts')
 

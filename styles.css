@@ -15,7 +15,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: linear-gradient(to bottom, #223046 0%, #242f3d 50%, #15181f 100%);
+    --bg: linear-gradient(to bottom, #173361 0%, #242f3d 50%, #040f29 100%);
     --accent: #3a8dff;
     --accent-light: #6eafff;
     --text: #fDf7f7;
@@ -106,7 +106,7 @@ li {
   left: 50%;
   transform: translateX(-50%);
   width: 90vw;
-  max-width: 1200px;
+  max-width: 1300px;
   height: var(--header-h);
   padding: clamp(0.75rem, 3vw, 1.5rem) clamp(0.75rem, 3vw, 1.5rem);
   display: flex;
@@ -203,6 +203,14 @@ li {
   font-weight: 500;
 }
 
+.posts{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 3 posts per row */
+  gap: 0px; /* Space between posts */
+  margin: 0 auto; /* Centers the container */
+  max-width: 1550px; /* Optional: Set a max width for the container */
+}
+
 .posts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -250,19 +258,19 @@ main {
 .projects-section,
 .skills-section,
 .contact-section {
-  max-width: 1100px;
+  max-width: 1300px;
 }
 
 /* Hero Section*/
 .hero {
-    min-height: 50vh;
+    min-height: 40vh;
     display: flex;
     flex-direction: row; /* changed from column to row */
     justify-content: center;
     align-items: center;
     gap: 2rem; /* more spacing between text and image */
     margin: 4rem auto 2rem;
-    padding: 2rem;
+    padding: 0rem;
 }
 
 .hero h1 {
@@ -746,4 +754,95 @@ footer {
   body {
     scroll-behavior: auto !important;
   }
+}
+
+
+/* General Form Styles */
+#filterForm {
+  background: var(--bg);
+  padding: 1.5em;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 800px;
+  margin: 1.9rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5em;
+}
+
+#filterForm div {
+  display: flex;
+
+  gap: 0.5em;
+  flex-grow: 1; /* Ensure the divs take up available space */
+  align-content: flex-end;
+}
+
+#filterForm label {
+  font-size: 1.1rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+#filterForm select {
+  padding: 0.8em;
+  font-size: 1rem;
+  border: 1px solid var(--muted);
+  border-radius: var(--radius);
+  background-color: #0950c3;
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease-in-out;
+}
+
+#filterForm select:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* Apply Button Styles */
+#filterForm button {
+  padding: 0.8em 2em;
+  background: linear-gradient(to bottom right, rgba(var(--accent-rgb), 0.9) 0%, rgba(var(--accent-light-rgb), 0.7) 100%);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+}
+
+#filterForm button:hover {
+  background: linear-gradient(to bottom right, rgba(var(--accent-rgb), 1) 0%, rgba(var(--accent-light-rgb), 1) 100%);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+  #filterForm {
+    flex-direction: column;
+    gap: 1em;
+    width: 100%;
+  }
+
+  #filterForm div {
+    flex-direction: row;
+    gap: 1em;
+    width: 100%;
+  }
+
+  #filterForm button {
+    width: 100%;
+  }
+}
+
+.realtitre {
+  display: flex;
+  align-items: center;         /* Center vertically */
+  justify-content: center;     /* Center horizontally */
+  width: 100%;                 /* Full width of the viewport */
 }

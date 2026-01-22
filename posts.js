@@ -126,7 +126,8 @@ function createPostHTML(post) {
     
     <div class="post-meta">
       <p><strong>Auteur :</strong> ${post.author || 'Inconnu'}</p>
-      <p><strong>Année :</strong>  ${yearText}</p>
+      <p><strong>Année :</strong>  ${post.year}</p>
+      <p><strong>Tags:</strong> ${post.tag}</p>
       <p><strong>Catégories :</strong> ${post.categories?.length ? post.categories.map(cat => cat.title).join(', ') : 'Aucune'}</p>
     </div>
     
@@ -194,3 +195,176 @@ client.fetch(query)
     console.error('Erreur Sanity:', err)
     postsGrid.innerHTML = `<p>Erreur lors du chargement des posts: ${err.message}</p>`
   })
+  
+  // Function to load categories, tags, and years from Sanity
+  async function loadFilters() {
+    try {
+      // Fetch categories, tags, and years (adjust the queries to match your schema)
+      const categories = await client.fetch('*[_type == "category"]{title}');
+      const tags = await client.fetch('*[_type == "tag"]{title}');
+      const years = await client.fetch('*[_type == "post"]{year}');
+  
+      console.log('Categories:', categories);
+      console.log('Tags:', tags);
+      console.log('Years:', years);
+  
+      // Populate the Category dropdown
+      const categorySelect = document.getElementById('category');
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.title;
+        option.textContent = category.title;
+        categorySelect.appendChild(option);
+      });
+  
+      // Populate the Tag dropdown
+      const tagSelect = document.getElementById('tag');
+      tags.forEach(tag => {
+        const option = document.createElement('option');
+        option.value = tag.title;
+        option.textContent = tag.title;
+        tagSelect.appendChild(option);
+      });
+  
+      // Populate the Year dropdown (assuming you have unique years for posts)
+      const yearSelect = document.getElementById('year');
+      const uniqueYears = [...new Set(years.map(post => post.year))];
+      uniqueYears.forEach(year => {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+      });
+    } catch (error) {
+      console.error('Error loading filters:', error);
+    }
+  }
+  
+  // Function to build the query with dynamic filters
+  function buildQuery(category, tag, year) {
+    let query = `*[_type == "post"`;
+  
+    const filters = [];
+  
+    // Add filters to the query if they exist
+    if (category) {
+      filters.push(`references(*[_type == "category" && title == $category]._id)`);
+    }
+  
+    if (tag) {
+      filters.push(`references(*[_type == "tag" && title == $tag]._id)`);
+    }
+  
+    if (year) {
+      filters.push(`year == $year`);
+    }
+  
+    // Combine filters if they exist
+    if (filters.length > 0) {
+      query += ` && ${filters.join(' && ')}`;
+    }
+  
+    query += `] | order(publishedAt desc) {
+      _id,
+      title,
+      "slug": slug.current,
+      "imageUrl": mainImage.asset->url,
+      publishedAt,
+      body,
+      "categories": categories[]->{title},
+      year,
+      tag,
+      "author": author->name,
+      "documents": documents[] {
+        "asset": asset->{url, originalFilename}
+      }
+    }`;
+  
+    return query;
+  }
+  
+  // Function to display the posts in the HTML
+  function displayPosts(posts) {
+    const postsList = document.getElementById('postsList');
+    postsList.innerHTML = ''; // Clear previous posts
+  
+    if (posts.length === 0) {
+      postsList.innerHTML = '<p>No posts found.</p>';
+      return;
+    }
+  
+    posts.forEach(post => {
+      const excerpt = post.body ? post.body : 'No excerpt available';
+      const fullContent = post.body ? post.body : 'No content available';
+  
+      const postElement = document.createElement('div');
+      postElement.classList.add('project-card-real');
+  
+      postElement.innerHTML = `
+        <div class="post-header">
+          <h2>${post.title || 'Titre non disponible'}</h2>
+          ${post.imageUrl ? `<img src="${post.imageUrl}" alt="${post.title}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0;">` : ''}
+        </div>
+  
+        <div class="post-meta">
+          <p><strong>Auteur :</strong> ${post.author || 'Inconnu'}</p>
+          <p><strong>Année :</strong> ${post.year || 'Non spécifiée'}</p>
+          <p><strong>Tags:</strong> ${post.tags?.length ? post.tags.join(', ') : 'Aucun'}</p>
+          <p><strong>Catégories :</strong> ${post.categories?.length ? post.categories.map(cat => cat.title).join(', ') : 'Aucune'}</p>
+        </div>
+  
+        <div class="post-excerpt">
+          <p><strong>Résumé :</strong> ${excerpt}</p>
+        </div>
+  
+        <div class="post-content" style="display: none;">
+          <h3>Contenu complet :</h3>
+          <p>${fullContent}</p>
+        </div>
+  
+        <button class="toggle-content cta" onclick="toggleContent(this)">
+          Lire la suite
+        </button>
+  
+        ${post.documents?.length ? `
+          <div class="post-documents">
+            <p><strong>Fichiers :</strong></p>
+            <ul style="list-style: none; padding: 0;">
+              ${post.documents.map(doc => 
+                `<li style="margin: 5px 0;">
+                  <a href="${doc.asset?.url}" class="cta" target="_blank" rel="noopener" style="text-decoration: none;">
+                    ${doc.asset?.originalFilename || 'Fichier'}
+                  </a>
+                </li>`
+              ).join('')}
+            </ul>
+          </div>
+        ` : ''}
+      `;
+  
+      postsList.appendChild(postElement);
+    });
+  }
+  
+  
+  // Handle form submission and filtering
+  document.getElementById('filterForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+  
+    // Get selected filter values
+    const category = document.getElementById('category').value;
+    const tag = document.getElementById('tag').value;
+    const year = document.getElementById('year').value;
+  
+    const query = buildQuery(category, tag, year);
+    const posts = await client.fetch(query, { category, tag, year });
+  
+    // Display the filtered posts
+    displayPosts(posts);
+  });
+  
+  // Call the loadFilters function when the page loads
+  document.addEventListener('DOMContentLoaded', function () {
+    loadFilters();
+  });
+  

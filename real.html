@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="main.js" defer></script>
     <script type="module" src="posts.js"></script>
+    <script type="module" src="real.js"></script>
   </head>
 
 <body>
@@ -53,6 +54,7 @@
   </header>
 
   <main id="main-content">
+    <div id="main-div">
     <section class="hero" aria-labelledby="hero-heading">
       <div class="hero-content">
         <h1 id="hero-heading">Bonjour,<br>je suis <span class="primary">Ghju Vincenti</span></h1>
@@ -62,11 +64,50 @@
       </div>
       <img src="assets/images/me.png" alt="Moi"  class="hero-image" loading="lazy">
     </section>
-    <section id="projects" class="projects-section" aria-labelledby="projects-heading">
-      <h2 id="projects-heading">Mes Réalisations</h2>
-      <p>Voici quelques projets sur lesquels j'ai travaillé, illustrant mes compétences en développement web et mobile.</p>
-      <div class="posts"></div>
 
+    <section id="projects" class="projects-section" aria-labelledby="projects-heading">
       
+      <h2 class="realtitre" id="projects-heading">Mes Réalisations</h2>
+      <p class="realtitre"><br>Voici quelques projets sur lesquels j'ai travaillé, illustrant mes compétences en développement web et mobile.</p>
+      <form id="filterForm">
+        <div>
+  
+          <select id="category" name="category">
+            <option value="">Select Category</option>
+            <!-- Categories will be populated dynamically here -->
+          </select>
+        </div>
+      
+        <div>
+  
+          <select id="tag" name="tag">
+            <option value="">Select Tag</option>
+            <!-- Tags will be populated dynamically here -->
+          </select>
+        </div>
+      
+        <div>
+  
+          <select id="year" name="year">
+            <option value="">Select Year</option>
+            <!-- Years will be populated dynamically here -->
+          </select><br>
+        </div>
+      
+        <button type="submit">Apply Filters</button>
+      </form>
+<!-- Filter Form -->
+
+<!-- Display Filtered Posts -->
+<div class="posts" id="postsList"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@sanity/client@2.19.0/dist/sanity.client.min.js"></script>
+
     </section>
+
+  </div>
+
+  </main>
+</body>
+</html>
     
