@@ -24,6 +24,7 @@ PAGE D'ACCUEIL
 
 PAGE REALISATIONS
 ✅   Mettre des filtres sur la page Réal
+-   metrre les labels de filtres en français 
 ✅   Reduire le scrolltime en mettants 2_3 projets sur une ligne
 ✅   Ajouter un footer dans la page réal
 
