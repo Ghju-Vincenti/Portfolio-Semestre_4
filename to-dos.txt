@@ -1,5 +1,7 @@
 
 -   Update le CV
+-   Mettre en place un bouton pour changer de thème 
+✅  Thème Black and White
 -   Revoir le formatage du CV
 -   Montrer l'évolution de mes compétences
 -   Revoir les ACs
